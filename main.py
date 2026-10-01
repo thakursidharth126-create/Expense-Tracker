@@ -7,12 +7,13 @@ def menu():
     print("2. View Expense")
     print("3. View Total Expenses")
     print("4. Delete Expense")
-    print("5. Exit")
+    print("5. Edit Expense")
+    print("6. Exit")
 choice = ""
 
-while choice != "5":
+while choice != "6":
     menu()
-    choice = input("Enter your choice (1-5): ")
+    choice = input("Enter your choice (1-6): ")
 # Add expense logic here...
 
     if choice == "1":
@@ -63,6 +64,23 @@ while choice != "5":
             else:
                 print("Invalid expense number:")
     elif choice == "5":
+        if len(expenses) == 0:
+            print("No expenses to edit.")
+        else:
+            print("Expenses:")
+
+            for i in range(len(expenses)):
+                print(i + 1, expenses[i]["description"])
+            number = int(input("Enter expense number to edit: "))
+            if number >= 1 and number <= len(expenses):
+                amount = input("Enter new amount: ")
+                category = input("Enter new category: ")
+                description = input("Enter new description: ")
+                expenses[number - 1]["amount"] = amount
+                expenses[number - 1]["category"] = category
+                expenses[number - 1]["description"] = description
+                print("Expense updated successfully!")
+    elif choice == "6":
         print("GoodBye!")
 
     else:
