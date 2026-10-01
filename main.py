@@ -1,6 +1,18 @@
+import json
+
+def save_expenses():
+    with open("expenses.json", "w") as file:
+        json.dump(expenses, file)
+
+def load_expenses():
+    try:
+        with open("expenses.json", "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return[]
 print("Expense Tracker")
 
-expenses = []
+expenses = load_expenses()
 def menu():
     print("\nMenu:")
     print("1. Add Expense")
@@ -27,6 +39,7 @@ while choice != "6":
             "description": description
         }
         expenses.append(expense)
+        save_expenses()
         print("Expense added successfully!")
 
 # Add expense viewing logic here...
@@ -60,6 +73,8 @@ while choice != "6":
 
             if number >= 1 and number <= len(expenses):
                 expenses.pop(number - 1)
+                save_expenses()
+            
                 print("Expense deleted succcessfully!")
             else:
                 print("Invalid expense number:")
@@ -79,6 +94,7 @@ while choice != "6":
                 expenses[number - 1]["amount"] = amount
                 expenses[number - 1]["category"] = category
                 expenses[number - 1]["description"] = description
+                save_expenses()
                 print("Expense updated successfully!")
     elif choice == "6":
         print("GoodBye!")
