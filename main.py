@@ -5,12 +5,13 @@ def menu():
     print("\nMenu:")
     print("1. Add Expense")
     print("2. View Expense")
-    print("3. Exit")
+    print("3. View Total Expenses")
+    print("4. Exit")
 choice = ""
 
-while choice != "3":
+while choice != "4":
     menu()
-    choice = input("Enter your choice (1-3): ")
+    choice = input("Enter your choice (1-4): ")
 
     if choice == "1":
         # Add Expense logic here
@@ -41,6 +42,12 @@ while choice != "3":
                 print()
 
     elif choice == "3":
+        # View Total Expense logic here...
+        total = 0
+        for expense in expenses:
+            total = total + float(expense["amount"])
+            print("Total Expenses:", total)
+    elif choice == "4":
         print("GoodBye!")
 
     else:
