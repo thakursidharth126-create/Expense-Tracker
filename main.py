@@ -20,16 +20,23 @@ def menu():
     print("3. View Total Expenses")
     print("4. Delete Expense")
     print("5. Edit Expense")
-    print("6. Exit")
+    print("6. Search Expense")
+    print("7. Sort Expenses")
+    print("8. Exit")
 choice = ""
 
-while choice != "6":
+while choice != "8":
     menu()
-    choice = input("Enter your choice (1-6): ")
+    choice = input("Enter your choice (1-8): ")
 # Add expense logic here...
 
     if choice == "1":
         amount = input("Enter amount: ")
+        try:
+            amount = float(amount)
+        except ValueError:
+            print("Please enter a valid amount.")
+            continue
         category = input("Enter category: ")
         description = input("Enter description: ")
 
@@ -61,7 +68,7 @@ while choice != "6":
         total = 0
         for expense in expenses:
             total = total + float(expense["amount"])
-            print("Total Expenses:", total)
+        print("Total Expenses:", total)
     elif choice == "4":
         if len(expenses) == 0:
             print("No expense to delete")
@@ -69,7 +76,9 @@ while choice != "6":
             print("Expenses:")
             for i in range(len(expenses)):
                 print(i + 1, expenses[i]["description"])
-            number = int(input("Enter expense number to be delete: "))
+            number = input("Enter expense number to be delete: ")
+        if number.isdigit():
+            number = int(number)
 
             if number >= 1 and number <= len(expenses):
                 expenses.pop(number - 1)
@@ -78,6 +87,8 @@ while choice != "6":
                 print("Expense deleted succcessfully!")
             else:
                 print("Invalid expense number:")
+        else:
+            print("Please enter a number.")
     elif choice == "5":
         if len(expenses) == 0:
             print("No expenses to edit.")
@@ -86,7 +97,9 @@ while choice != "6":
 
             for i in range(len(expenses)):
                 print(i + 1, expenses[i]["description"])
-            number = int(input("Enter expense number to edit: "))
+            number = input("Enter expense number to edit: ")
+        if number.isdigit():
+            number = int(number)
             if number >= 1 and number <= len(expenses):
                 amount = input("Enter new amount: ")
                 category = input("Enter new category: ")
@@ -96,7 +109,35 @@ while choice != "6":
                 expenses[number - 1]["description"] = description
                 save_expenses()
                 print("Expense updated successfully!")
+            else:
+                print("Invalid expense number.")
+        else:
+            print("Please enter a number.")
     elif choice == "6":
+        search = input("Enter category or description to search: ")
+        found = False
+        for expense in expenses:
+            if search.lower() in expense["category"].lower() or search.lower() in expense["description"].lower():
+               print("Amount:", expense["amount"])
+               print("Category:", expense["category"])
+               print("Description:", expense["description"])
+               print()
+               found = True
+        if not found:
+            print("No matching expense found.")
+    elif choice == "7":
+        if len(expenses) == 0:
+            print("No expense to sort.")
+        else:
+            expenses.sort(key=lambda expense: float(expense["amount"]))
+            print("Expenses sorted by amount.")
+            for expense in expenses:
+                print("Amount:", expense["amount"])
+                print("Category:", expense["category"])
+                print("Description:", expense["description"])
+                print()
+
+    elif choice == "8":
         print("GoodBye!")
 
     else:
